@@ -1,15 +1,7 @@
-# bun-test
+`bookmarklet.js` のコードから改行を取り除き、ブラウザのブックマークの URL 欄に登録します（ブックマーク名は任意で構いません）。
+PowerShell で `bun server.ts` コマンドを実行します。
+ブラウザで Strudel のページ（https://strudel.cc/）を開きます。
+開いた状態で、先ほど登録したブックマークレットをクリックします。
 
-To install dependencies:
-
-```bash
-bun install
-```
-
-To run:
-
-```bash
-bun run index.ts
-```
-
-This project was created using `bun init` in bun v1.3.14. [Bun](https://bun.com) is a fast all-in-one JavaScript runtime.
+`common.ts` には、共通で適用したいコードや定義を記述します。共通コードはそのまま記述でき、定義には `export` を付けます。
+`strudel-*.ts` という命名規則のファイルを保存すると、そのコードが Strudel に流し込まれます。変数単体（例: `$: intro`）の記述では認識されません。関数やメソッドを組み合わせて記述してください（例: `$: intro.fast(1)`）。
