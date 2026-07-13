@@ -1,4 +1,3 @@
-// strudel-kick.ts - キック単体を演奏するファイル
-import { kick } from "./common";
+import { build } from "./parts/build";
 
-$: kick.fast(slider(1, 0.25, 4, 0.25));
+$: build._punchcard();

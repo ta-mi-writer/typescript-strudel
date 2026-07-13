@@ -1,5 +1,59 @@
 // strudel.d.ts - 日本語解説付き Strudel 型定義ファイル
 
+/**
+ * ピアノロール（パンチカード）の描画オプションを設定するインターフェース。
+ */
+interface PunchcardOptions {
+  /** 表示するサイクルの数。デフォルトは 4 です。 */
+  cycles?: number;
+  /** 再生ヘッドのタイムライン上の位置。0.0（左端・上端）から 1.0（右端・下端）。デフォルトは 0.5 です。 */
+  playhead?: number;
+  /** ピアノロールを垂直（縦書き）方向に表示するかどうか。デフォルトは 0 (false) です。 */
+  vertical?: boolean | number;
+  /** 各ノートに音階名などのラベルを表示するかどうか。デフォルトは 0 (false) です。 */
+  labels?: boolean | number;
+  /** 時間の進行方向（スクロール方向）を反転するかどうか。デフォルトは 0 (false) です。 */
+  flipTime?: boolean | number;
+  /** 音高（ノートの高さ）の表示位置を上下反転するかどうか。デフォルトは 0 (false) です。 */
+  flipValues?: boolean | number;
+  /** 表示エリア外（事前ロードするサイクル数）の描画補完範囲。デフォルトは 1 です。 */
+  overscan?: number;
+  /** 再生開始前（マイナスの時間）の音符を非表示にするかどうか。デフォルトは 0 (false) です。 */
+  hideNegative?: boolean | number;
+  /** 音符がスクロールする際、残響のように塗りつぶした軌跡（トレース）を残すかどうか。デフォルトは 0 (false) です。 */
+  smear?: boolean | number;
+  /** 音高の範囲に関わらず、描画エリアの縦幅いっぱいにノートを折り畳んで（拡大して）表示するかどうか。デフォルトは 0 (false) です。 */
+  fold?: boolean | number;
+  /** アクティブな（現在鳴っている）ノートの色。CSSカラー文字列（例: "#FFCA28"）で指定します。 */
+  active?: string;
+  /** アクティブではないノートの色。CSSカラー文字列。 */
+  inactive?: string;
+  /** 背景色。CSSカラー文字列。 */
+  background?: string;
+  /** 再生ヘッドを表す線の色。デフォルトは "white" です。 */
+  playheadColor?: string;
+  /** 音符全体を塗りつぶして表示するかどうか。 */
+  fill?: boolean | number;
+  /** アクティブな音符全体を塗りつぶして表示するかどうか。 */
+  fillActive?: boolean | number;
+  /** 音符に枠線を表示するかどうか。 */
+  stroke?: boolean | number;
+  /** アクティブな音符に枠線を表示するかどうか。 */
+  strokeActive?: boolean | number;
+  /** アクティブではない音符を完全に非表示にする（鳴っている音だけ表示する）かどうか。デフォルトは 0 (false) です。 */
+  hideInactive?: boolean | number;
+  /** アクティブではない音符にも、パターンに設定された色（color）を反映するかどうか。デフォルトは 1 (true) です。 */
+  colorizeInactive?: boolean | number;
+  /** 音符ラベルに使用するフォントファミリー。デフォルトは "monospace" です。 */
+  fontFamily?: string;
+  /** 表示する音高（MIDIノート番号）の最小値。デフォルトは 10 です。 */
+  minMidi?: number;
+  /** 表示する音高（MIDIノート番号）の最大値。デフォルトは 90 です。 */
+  maxMidi?: number;
+  /** minMidi と maxMidi をパターンの音階に合わせて自動的に計算・調整するかどうか。デフォルトは 0 (false) です。 */
+  autorange?: boolean | number;
+}
+
 declare class Pattern<T> {
   // ==========================================
   // 1. 音源・音色の選択とコントロール
@@ -230,7 +284,7 @@ declare class Pattern<T> {
   range(min: number, max: number): Pattern<T>;
 
   /**
-   * ローパスフィルターのカットオフ周波只を設定します（ショートハンド）。
+   * ローパスフィルターのカットオフ周波数を設定します（ショートハンド）。
    * @example .lpf(600)
    */
   lpf(
@@ -252,10 +306,24 @@ declare class Pattern<T> {
   mask(
     maskPattern: string | Pattern<number>,
   ): Pattern<T>;
+
+  // ==========================================
+  // 7. ビジュアルフィードバック / 可視化
+  // ==========================================
+
+  /**
+   * パターンの音高やリズムをピアノロール（パンチカード）風に、コードのすぐ下にインラインで可視化します。
+   * 後続のすべてのトランスフォーメーション（音程変更やエフェクト等）が適用された結果を反映して描画されます。
+   * @param options 描画オプション（表示サイクル数、色、ラベル設定など。省略した場合はデフォルト値で描画されます）
+   * @example ._punchcard({ cycles: 4, labels: true, active: "cyan" })
+   */
+  _punchcard(
+    options?: PunchcardOptions,
+  ): Pattern<T>;
 }
 
 // ==========================================
-// 7. グローバルに利用する基本関数
+// 8. グローバルに利用する基本関数
 // ==========================================
 
 /**
@@ -287,7 +355,7 @@ declare function note(
 ): Pattern<any>;
 
 /**
- * 音階やノート番号のパターンを作成します。
+ * 音階やノート番号의 パターンを作成します。
  * @param patternStr MIDIノート番号や、c3, e3, g3 といった音階の文字列
  * @example n("0 4 7 11")
  */
@@ -311,7 +379,7 @@ declare function setcpm(
 ): void;
 
 /**
- * 複数のパターンを重ねて同時に演奏するステック構成を作成します。
+ * 複数のパターンを重ねて同時に演奏するスタック構成を作成します。
  */
 declare function stack(
   ...patterns: Pattern<any>[]
