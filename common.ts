@@ -21,7 +21,7 @@ export const bass = note(
   "[~ ~ c2 c2]*2 [~ ~ db2 db2]*2",
 )
   .sound("gm_acoustic_bass")
-  .gain(0.6);
+  .gain(1.5);
 
 // === 🆕 ビルド用に追加する新しい素材 ===
 // 1. 細かい16分音符で刻むシェイカー（全体の疾走感をドライブさせます）
@@ -32,4 +32,4 @@ export const synth = note(
   "[c3 ~ eb3 c3] [~ f3 c3 ~]",
 )
   .sound("sawtooth")
-  .gain(0.22);
+  .gain(0.5);
