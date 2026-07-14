@@ -320,7 +320,16 @@ declare class Pattern<T> {
   _punchcard(
     options?: PunchcardOptions,
   ): Pattern<T>;
-}
+
+  /**
+   * パターンのビジュアルカラーを設定します。
+   * CSSカラー文字列（色名や#HEXコード）を指定します。
+   * @param colorStr 色名（例: "red", "paleturquoise"）やHEXコード（例: "#FF0000"）
+   * @example .color("crimson")
+   * @example .color("paleturquoise")
+   * @example .color("#FF5733")
+   */
+  color(colorStr: ColorValue): Pattern<T>;
 
 // ==========================================
 // 8. グローバルに利用する基本関数
@@ -416,3 +425,162 @@ declare function slider(
   defaultValue: number,
   step: number,
 ): Pattern<number>;
+
+/**
+ * 文字列型（CSSカラー名や数値）のためのユーティリティ型
+ */
+type ColorValue = string;
+
+/**
+ * 色付け（カラー）を設定するインターフェース
+ */
+interface Colorable {
+  color(color: ColorValue): this;
+}
+
+/**
+ * 色を設定します（パターンのビジュアルカラー）。
+ * CSSカラー文字列（色名や#HEXコード）を指定します。
+ * @param colorStr 色名（例: "red", "paleturquoise"）やHEXコード（例: "#FF0000"）
+ * @example .color("crimson")
+ * @example .color("paleturquoise")
+ * @example .color("#FF5733")
+ */
+declare function color(colorStr: ColorValue): Pattern<any>;
+
+  /**
+   * パターンのビジュアルカラーを設定します。
+   * CSSカラー文字列（色名や#HEXコード）を指定します。
+   * @param colorStr 色名（例: "red", "paleturquoise"）やHEXコード（例: "#FF0000"）
+   * @example .color("crimson")
+   * @example .color("paleturquoise")
+   * @example .color("#FF5733")
+   */
+  color(colorStr: ColorValue): Pattern<T>;
+
+// ==========================================
+// 8. グローバルに利用する基本関数
+// ==========================================
+
+/**
+ * リズムの記述（ミニノテーション）から、サンプラー音源のパターンを作成します。
+ * @param patternStr サンプル名（音色名）を含むリズムパターン文字列
+ * @example s("bd*4, [~ cp]*2")
+ */
+declare function s(
+  patternStr: string,
+): Pattern<any>;
+
+/**
+ * リズムの記述（ミニノテーション）から、サンプラー音源のパターンを作成します（sの完全な名前版）。
+ * @param patternStr サンプル名（音色名）を含むリズムパターン文字列
+ * @example sound("bd*4")
+ */
+declare function sound(
+  patternStr: string,
+): Pattern<any>;
+
+/**
+ * 音階やノート番号のパターンを作成します（n のエイリアスです）。
+ * @param patternStr MIDIノート番号や、c3, e3, g3 といった音階の文字列
+ * @example note("c3 e3 g3 a3")
+ */
+declare function note(
+  patternStr:
+    string | number | Pattern<string | number>,
+): Pattern<any>;
+
+/**
+ * 音階やノート番号의 パターンを作成します。
+ * @param patternStr MIDIノート番号や、c3, e3, g3 といった音階の文字列
+ * @example n("0 4 7 11")
+ */
+declare function n(
+  patternStr:
+    string | number | Pattern<string | number>,
+): Pattern<any>;
+
+/**
+ * Strudelの演奏エンジンにコードを登録して鳴らすための、トリガー用のグローバルシンボルです。
+ */
+declare const $: any;
+
+/**
+ * Cycles per minute (CPM) を設定してテンポを制御します。
+ * 1Cycle = 4小節分の時間なので、120CPMは1分に120サイクル = 30BPM相当です。
+ * @param cpm サイクル数/分
+ */
+declare function setcpm(
+  cpm: number | Pattern<number>,
+): void;
+
+/**
+ * 複数のパターンを重ねて同時に演奏するスタック構成を作成します。
+ */
+declare function stack(
+  ...patterns: Pattern<any>[]
+): Pattern<any>;
+
+/**
+ * パターンを複数のセクションに分けてアレンジメントを作成します。
+ */
+declare function arrange(
+  ...sections: [number, Pattern<any>][]
+): Pattern<any>;
+
+/**
+ * 周期的な値を生成します（ノコギリ波）。
+ * @example saw.range(200, 600).slow(8)
+ */
+declare const saw: Pattern<number>;
+
+/**
+ * 周期的な値を生成します（サイン波）。
+ */
+declare const sine: Pattern<number>;
+
+/**
+ * スライダーを作成します。
+ * @param min 最小値
+ * @param max 最大値
+ * @param defaultValue デフォルト値
+ * @param step ステップ幅
+ */
+declare function slider(
+  min: number,
+  max: number,
+  defaultValue: number,
+  step: number,
+): Pattern<number>;
+
+/**
+ * 文字列型（CSSカラー名や数値）のためのユーティリティ型
+ */
+type ColorValue = string;
+
+/**
+ * 色付け（カラー）を設定するインターフェース
+ */
+interface Colorable {
+  color(color: ColorValue): this;
+}
+
+/**
+ * 色を設定します（パターンのビジュアルカラー）。
+ * CSSカラー文字列（色名や#HEXコード）を指定します。
+ * @param colorStr 色名（例: "red", "paleturquoise"）やHEXコード（例: "#FF0000"）
+ * @example .color("crimson")
+ * @example .color("paleturquoise")
+ * @example .color("#FF5733")
+ */
+declare function color(colorStr: ColorValue): Pattern<any>;
+
+  /**
+   * パターンのビジュアルカラーを設定します。
+   * CSSカラー文字列（色名や#HEXコード）を指定します。
+   * @param colorStr 色名（例: "red", "paleturquoise"）やHEXコード（例: "#FF0000"）
+   * @example .color("crimson")
+   * @example .color("paleturquoise")
+   * @example .color("#FF5733")
+   */
+  color(colorStr: ColorValue): Pattern<T>;
