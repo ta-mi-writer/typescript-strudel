@@ -37,9 +37,9 @@ export const introBreak = stack(
 
 // 2. アレンジメントに流し込み、ビジュアライザ用に色分けする
 export const intro = arrange(
-  [8, introKick.color("paleturquoise")], // 青：キックのみ
-  [8, introHats.color("khaki")], // 緑：ハット追加
-  [8, introBass.color("plum")], // 紫：ベース追加
-  [7, introFull.color("indianred")], // 黄：クラップ追加（フル）
-  [1, introBreak.color("mistyrose")], // 赤：ブレイク（キメ）
+  [8, introKick.color("paleturquoise")],
+  [8, introHats.color("khaki")],
+  [8, introBass.color("plum")],
+  [7, introFull.color("indianred")],
+  [1, introBreak.color("mistyrose")],
 );
